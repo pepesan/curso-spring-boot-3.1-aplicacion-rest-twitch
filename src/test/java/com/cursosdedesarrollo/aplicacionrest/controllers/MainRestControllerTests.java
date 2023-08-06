@@ -1,6 +1,5 @@
-package com.cursosdedesarrollo.aplicacionrest;
+package com.cursosdedesarrollo.aplicacionrest.controllers;
 
-import com.cursosdedesarrollo.aplicacionrest.controllers.MainRestController;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class AplicacionrestApplicationTests {
+class MainRestControllerTests {
 
 	// Haciendo una Injección de Dependencias del Controlador en esta clase
 	// definir un atributo en la clase que se va a auto cargar
