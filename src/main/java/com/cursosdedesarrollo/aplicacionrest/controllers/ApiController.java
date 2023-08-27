@@ -30,6 +30,13 @@ public class ApiController {
         return  this.listado;
     }
 
+    @GetMapping("/clear")
+    List<Dato> clear(){
+        this.listado  = new LinkedList<>();
+        this.lastID = 0L;
+        return this.listado;
+    }
+
     /*
         Post /api/v1/dato/ -> Crear un nuevo dato
      */
