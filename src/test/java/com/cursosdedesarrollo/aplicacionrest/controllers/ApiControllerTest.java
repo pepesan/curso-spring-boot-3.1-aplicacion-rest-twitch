@@ -49,18 +49,20 @@ class ApiControllerTest {
 
     @Test
     void testAddShouldReturnDato() throws Exception {
+        Dato objetoEnviado= new Dato(0L,"valor");
+        Dato objetoEsperado= new Dato(1L,"valor");
         mockMvc.perform(
                         MockMvcRequestBuilders
                                 .post(basePath+"/")
-                                .content(asJsonString(new Dato(0L,"valor")))
+                                .content(asJsonString(objetoEnviado))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(mapper.writeValueAsString(new
-                        Dato(1L,"valor"))));
+                .andExpect(content().json(mapper.writeValueAsString(objetoEsperado)));
     }
     @Test
     void testGetByIDShouldReturnDato() throws Exception {
+        Dato datoEsperado= new Dato(1L,"valor");
         // metemos el dato antes de consultarlo
         testAddShouldReturnDato();
         mockMvc.perform(
@@ -69,26 +71,27 @@ class ApiControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(mapper.writeValueAsString(new
-                        Dato(1L,"valor"))));
+                .andExpect(content().json(mapper.writeValueAsString(datoEsperado)));
     }
     @Test
     void testUpdateShouldReturnDato() throws Exception {
+        Dato datoEnviado= new Dato(0L,"valor1");
+        Dato datoEsperado = new Dato(1L,"valor1");
         // metemos el dato antes de consultarlo
         testAddShouldReturnDato();
         mockMvc.perform(
                         MockMvcRequestBuilders
                                 .patch(basePath+"/1")
-                                .content(asJsonString(new Dato(0L,"valor1")))
+                                .content(asJsonString(datoEnviado))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(mapper.writeValueAsString(new
-                        Dato(1L,"valor1"))));
+                .andExpect(content().json(mapper.writeValueAsString(datoEsperado)));
     }
 
     @Test
     void testRemoveByIDShouldReturnDato() throws Exception {
+        Dato datoEsperado = new Dato(1L,"valor");
         // metemos el dato antes de consultarlo
         testAddShouldReturnDato();
         mockMvc.perform(
@@ -97,8 +100,7 @@ class ApiControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(mapper.writeValueAsString(new
-                        Dato(1L,"valor"))));
+                .andExpect(content().json(mapper.writeValueAsString(datoEsperado)));
     }
 
     public static String asJsonString(final Object obj) {
