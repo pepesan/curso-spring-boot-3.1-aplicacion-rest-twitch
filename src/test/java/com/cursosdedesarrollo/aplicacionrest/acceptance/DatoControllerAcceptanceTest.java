@@ -13,7 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class DatoControllerIntegrationTest {
+public class DatoControllerAcceptanceTest {
 
     @LocalServerPort
     private int port;
@@ -76,11 +76,11 @@ public class DatoControllerIntegrationTest {
 
     @Test
     public void testDeleteDato() {
-        Long id = 1L;
+        testCreateDato();
 
-        restTemplate.delete(getUrl("/datos/" + id));
+        restTemplate.delete(getUrl("/datos/" + this.insertedID));
 
-        ResponseEntity<Dato> response = restTemplate.getForEntity(getUrl("/datos/" + id), Dato.class);
+        ResponseEntity<Dato> response = restTemplate.getForEntity(getUrl("/datos/" + this.insertedID), Dato.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNull(response.getBody());
