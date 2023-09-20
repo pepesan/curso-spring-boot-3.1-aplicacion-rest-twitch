@@ -28,7 +28,8 @@ public class DatoControllerAcceptanceTest {
 
     @Test
     public void testGetAllDatos() {
-        ResponseEntity<List> response = restTemplate.getForEntity(getUrl("/datos"), List.class);
+        ResponseEntity<List> response =
+                restTemplate.getForEntity(getUrl("/datos"), List.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -37,7 +38,8 @@ public class DatoControllerAcceptanceTest {
     @Test
     public void testGetDatoById() {
         testCreateDato();
-        ResponseEntity<Dato> response = restTemplate.getForEntity(getUrl("/datos/" + this.insertedID), Dato.class);
+        ResponseEntity<Dato> response =
+                restTemplate.getForEntity(getUrl("/datos/" + this.insertedID), Dato.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -49,7 +51,8 @@ public class DatoControllerAcceptanceTest {
         Dato dato = new Dato();
         dato.setCadena("Nuevo dato");
 
-        ResponseEntity<Dato> response = restTemplate.postForEntity(getUrl("/datos"), dato, Dato.class);
+        ResponseEntity<Dato> response =
+                restTemplate.postForEntity(getUrl("/datos"), dato, Dato.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -66,7 +69,8 @@ public class DatoControllerAcceptanceTest {
 
         restTemplate.put(getUrl("/datos/" + this.insertedID), dato);
 
-        ResponseEntity<Dato> response = restTemplate.getForEntity(getUrl("/datos/" + this.insertedID), Dato.class);
+        ResponseEntity<Dato> response =
+                restTemplate.getForEntity(getUrl("/datos/" + this.insertedID), Dato.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -80,7 +84,8 @@ public class DatoControllerAcceptanceTest {
 
         restTemplate.delete(getUrl("/datos/" + this.insertedID));
 
-        ResponseEntity<Dato> response = restTemplate.getForEntity(getUrl("/datos/" + this.insertedID), Dato.class);
+        ResponseEntity<Dato> response =
+                restTemplate.getForEntity(getUrl("/datos/" + this.insertedID), Dato.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNull(response.getBody());
