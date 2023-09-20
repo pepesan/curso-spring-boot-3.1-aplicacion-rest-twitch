@@ -5,7 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -15,7 +16,8 @@ import java.util.List;
 import static
         org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-@WebMvcTest
+@SpringBootTest
+@AutoConfigureMockMvc
 class ApiControllerTest {
     @Autowired
     MockMvc mockMvc;
@@ -74,11 +76,38 @@ class ApiControllerTest {
                 .andExpect(content().json(mapper.writeValueAsString(datoEsperado)));
     }
     @Test
+    void testGetByIDShouldNotReturnDato() throws Exception {
+        Dato datoEsperado= new Dato();
+        // metemos el dato antes de consultarlo
+        mockMvc.perform(
+                        MockMvcRequestBuilders
+                                .get(basePath+"/1")
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(mapper.writeValueAsString(datoEsperado)));
+    }
+    @Test
     void testUpdateShouldReturnDato() throws Exception {
         Dato datoEnviado= new Dato(0L,"valor1");
         Dato datoEsperado = new Dato(1L,"valor1");
-        // metemos el dato antes de consultarlo
+        // metemos el dato antes de modificarlo
         testAddShouldReturnDato();
+        mockMvc.perform(
+                        MockMvcRequestBuilders
+                                .patch(basePath+"/1")
+                                .content(asJsonString(datoEnviado))
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(mapper.writeValueAsString(datoEsperado)));
+    }
+
+    @Test
+    void testUpdateShouldNotReturnDato() throws Exception {
+        Dato datoEnviado= new Dato(0L,"valor1");
+        Dato datoEsperado = new Dato();
+        // metemos el dato antes de modificarlo
         mockMvc.perform(
                         MockMvcRequestBuilders
                                 .patch(basePath+"/1")
@@ -94,6 +123,18 @@ class ApiControllerTest {
         Dato datoEsperado = new Dato(1L,"valor");
         // metemos el dato antes de consultarlo
         testAddShouldReturnDato();
+        mockMvc.perform(
+                        MockMvcRequestBuilders
+                                .delete(basePath+"/1")
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(mapper.writeValueAsString(datoEsperado)));
+    }
+
+    @Test
+    void testRemoveByIDShouldNotReturnDato() throws Exception {
+        Dato datoEsperado = new Dato();
         mockMvc.perform(
                         MockMvcRequestBuilders
                                 .delete(basePath+"/1")
