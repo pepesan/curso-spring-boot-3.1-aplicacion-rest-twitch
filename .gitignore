@@ -31,3 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### volumenes de docker ###
+
+volumes/
+
+# base de datos de h2 de pruebas
+testdb.mv.*
