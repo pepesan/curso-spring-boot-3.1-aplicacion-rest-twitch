@@ -1,0 +1,37 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: mysql:latest
+    container_name: mysql8
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - "3306:3306"
+      - "33060:33060"
+    volumes:
+      - "./volumes/data:/var/lib/mysql"
+      - "./volumes/log:/var/log/mysql"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=test
+      - MYSQL_USERNAME=user
+      - MYSQL_PASSWORD=user
+
+  adminer:
+    image: adminer
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - 8888:8080
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - 10000:80
+    environment:
+      - PMA_HOST=db
