@@ -17,4 +17,16 @@ public class Alumno {
     private String apellidos;
     @Min(value = 18, message = "el usuario debe tener 18+")
     private Integer edad;
+    public Alumno(){
+        this.id = 0L;
+        this.nombre = "";
+        this.apellidos = "";
+        this.edad = 0;
+    }
+
+    public Alumno(AlumnoDTO alumnoDTO){
+        this.nombre = alumnoDTO.getNombre();
+        this.apellidos = alumnoDTO.getApellidos();
+        this.edad = alumnoDTO.getEdad();
+    }
 }
