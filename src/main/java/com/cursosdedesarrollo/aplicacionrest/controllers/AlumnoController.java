@@ -35,11 +35,11 @@ public class AlumnoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Alumno> show(@PathVariable Long id){
-        return ResponseEntity.ok(this.alumnoService.findById(id));
+        return ResponseEntity.ok(this.alumnoService.findById(id).orElse(null));
     }
     @PutMapping("/{id}")
     public ResponseEntity<Alumno> update(@PathVariable Long id, @RequestBody AlumnoDTO alumnoDTO){
-        Alumno alumno = this.alumnoService.findById(id);
+        Alumno alumno = this.alumnoService.findById(id).orElse(null);
         if (alumno != null) {
             alumno.setNombre(alumnoDTO.getNombre());
             alumno.setApellidos(alumnoDTO.getApellidos());
@@ -50,7 +50,7 @@ public class AlumnoController {
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Alumno> destroy(@PathVariable Long id){
-        Alumno alumno = this.alumnoService.findById(id);
+        Alumno alumno = this.alumnoService.findById(id).orElse(null);
         if (alumno != null) {
             this.alumnoService.deleteById(id);
         }

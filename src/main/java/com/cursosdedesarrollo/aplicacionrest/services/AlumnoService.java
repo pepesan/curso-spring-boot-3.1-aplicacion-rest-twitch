@@ -5,6 +5,7 @@ import com.cursosdedesarrollo.aplicacionrest.domain.AlumnoDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface AlumnoService {
@@ -12,7 +13,7 @@ public interface AlumnoService {
 
     Alumno save(Alumno alumno);
 
-    Alumno findById(Long id);
+    Optional<Alumno> findById(Long id);
 
     void deleteById(Long id);
 }
