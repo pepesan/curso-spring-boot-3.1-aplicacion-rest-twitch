@@ -23,8 +23,7 @@ public class AlumnoServiceImpl implements AlumnoService{
     }
 
     @Override
-    public Alumno save(AlumnoDTO alumnoDTO) {
-        Alumno alumno = new Alumno(alumnoDTO);
+    public Alumno save(Alumno alumno) {
         this.alumnoRepository.save(alumno);
         return alumno;
     }
