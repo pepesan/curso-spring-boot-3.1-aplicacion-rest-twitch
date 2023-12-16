@@ -1,6 +1,7 @@
 package com.cursosdedesarrollo.aplicacionrest.services;
 
 import com.cursosdedesarrollo.aplicacionrest.domain.Alumno;
+import com.cursosdedesarrollo.aplicacionrest.domain.AlumnoDTO;
 import com.cursosdedesarrollo.aplicacionrest.repositories.AlumnoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,5 +20,22 @@ public class AlumnoServiceImpl implements AlumnoService{
     @Override
     public List<Alumno> findAll() {
         return this.alumnoRepository.findAll();
+    }
+
+    @Override
+    public Alumno save(AlumnoDTO alumnoDTO) {
+        Alumno alumno = new Alumno(alumnoDTO);
+        this.alumnoRepository.save(alumno);
+        return alumno;
+    }
+
+    @Override
+    public Alumno findById(Long id) {
+        return this.alumnoRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        this.alumnoRepository.deleteById(id);
     }
 }

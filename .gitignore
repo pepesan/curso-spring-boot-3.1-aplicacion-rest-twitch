@@ -38,3 +38,4 @@ volumes/
 
 # base de datos de h2 de pruebas
 testdb.mv.*
+demo*
