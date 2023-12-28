@@ -1,10 +1,5 @@
 pipeline {
-  agent {
-        docker {
-            // Especifica la imagen de Docker que se utilizará en el agente
-            image 'maven:3.9.6-amazoncorretto-21'
-        }
-    }
+  agent any
   stages {
     stage('Setup Env') {
       steps {
