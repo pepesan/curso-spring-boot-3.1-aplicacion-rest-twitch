@@ -78,7 +78,7 @@ class ApiControllerTest {
     @Test
     void testGetByIDShouldNotReturnDato() throws Exception {
         Dato datoEsperado= new Dato();
-        // metemos el dato antes de consultarlo
+        // no metemos el dato antes de consultarlo
         mockMvc.perform(
                         MockMvcRequestBuilders
                                 .get(basePath+"/1")
@@ -107,7 +107,7 @@ class ApiControllerTest {
     void testUpdateShouldNotReturnDato() throws Exception {
         Dato datoEnviado= new Dato(0L,"valor1");
         Dato datoEsperado = new Dato();
-        // metemos el dato antes de modificarlo
+        // no metemos el dato antes de modificarlo
         mockMvc.perform(
                         MockMvcRequestBuilders
                                 .patch(basePath+"/1")
@@ -121,7 +121,7 @@ class ApiControllerTest {
     @Test
     void testRemoveByIDShouldReturnDato() throws Exception {
         Dato datoEsperado = new Dato(1L,"valor");
-        // metemos el dato antes de consultarlo
+        // metemos el dato antes de borrarlo
         testAddShouldReturnDato();
         mockMvc.perform(
                         MockMvcRequestBuilders
@@ -135,6 +135,7 @@ class ApiControllerTest {
     @Test
     void testRemoveByIDShouldNotReturnDato() throws Exception {
         Dato datoEsperado = new Dato();
+        // no metemos el dato antes de borrarlo
         mockMvc.perform(
                         MockMvcRequestBuilders
                                 .delete(basePath+"/1")
