@@ -37,11 +37,13 @@ public class DatoServiceTest {
         List<Dato> datos = new ArrayList<>();
         datos.add(new Dato());
         datos.add(new Dato());
-
+        // modifico el comportamiento del repositorio para que devuelva 2 datos
         when(datoRepository.findAll()).thenReturn(datos);
-
+        // llamar al servicio a que cargue los datos
         List<Dato> result = datoService.findAll();
-
+        // vcerifica que se ha llamado al repositorio
+        verify(datoRepository).findAll();
+        // si ha cargado los datos esperados
         assertEquals(2, result.size());
     }
 
@@ -54,7 +56,7 @@ public class DatoServiceTest {
         when(datoRepository.findById(id)).thenReturn(Optional.of(dato));
 
         Optional<Dato> result = datoService.findById(id);
-
+        verify(datoRepository).findById(id);
         assertTrue(result.isPresent());
         assertEquals(id, result.get().getId());
     }
