@@ -33,5 +33,9 @@ public class DatoService {
     public void deleteById(Long id) {
         datoRepository.deleteById(id);
     }
+
+    public void clear() {
+        datoRepository.deleteAll();
+    }
 }
 

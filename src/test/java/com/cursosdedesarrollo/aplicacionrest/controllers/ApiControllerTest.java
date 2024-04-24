@@ -9,7 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,18 +30,14 @@ class ApiControllerTest {
     public void clearRestData() throws Exception {
         System.out.println("limpiando");
         mockMvc.perform(
-                        MockMvcRequestBuilders
-                                .get(basePath+"/clear")
-                                .contentType(MediaType.APPLICATION_JSON))
+                get(basePath+"/clear").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
     @Test
     void testListShouldReturnOkResult() throws Exception {
         List<Dato> listadoEsperado= new ArrayList<Dato>();
         mockMvc.perform(
-                        MockMvcRequestBuilders
-                                .get(basePath+"/")
-                                .contentType(MediaType.APPLICATION_JSON))
+                get(basePath+"/").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 // comprobación del tipo de contenido
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -54,10 +50,9 @@ class ApiControllerTest {
         Dato objetoEnviado= new Dato(0L,"valor");
         Dato objetoEsperado= new Dato(1L,"valor");
         mockMvc.perform(
-                        MockMvcRequestBuilders
-                                .post(basePath+"/")
-                                .content(asJsonString(objetoEnviado))
-                                .contentType(MediaType.APPLICATION_JSON))
+                        post(basePath+"/")
+                        .content(asJsonString(objetoEnviado))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(mapper.writeValueAsString(objetoEsperado)));
@@ -68,9 +63,8 @@ class ApiControllerTest {
         // metemos el dato antes de consultarlo
         testAddShouldReturnDato();
         mockMvc.perform(
-                        MockMvcRequestBuilders
-                                .get(basePath+"/1")
-                                .contentType(MediaType.APPLICATION_JSON))
+                        get(basePath+"/1")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(mapper.writeValueAsString(datoEsperado)));
@@ -80,9 +74,8 @@ class ApiControllerTest {
         Dato datoEsperado= new Dato();
         // no metemos el dato antes de consultarlo
         mockMvc.perform(
-                        MockMvcRequestBuilders
-                                .get(basePath+"/1")
-                                .contentType(MediaType.APPLICATION_JSON))
+                        get(basePath+"/1")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(mapper.writeValueAsString(datoEsperado)));
@@ -94,10 +87,9 @@ class ApiControllerTest {
         // metemos el dato antes de modificarlo
         testAddShouldReturnDato();
         mockMvc.perform(
-                        MockMvcRequestBuilders
-                                .patch(basePath+"/1")
-                                .content(asJsonString(datoEnviado))
-                                .contentType(MediaType.APPLICATION_JSON))
+                        patch(basePath+"/1")
+                        .content(asJsonString(datoEnviado))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(mapper.writeValueAsString(datoEsperado)));
@@ -109,10 +101,9 @@ class ApiControllerTest {
         Dato datoEsperado = new Dato();
         // no metemos el dato antes de modificarlo
         mockMvc.perform(
-                        MockMvcRequestBuilders
-                                .patch(basePath+"/1")
-                                .content(asJsonString(datoEnviado))
-                                .contentType(MediaType.APPLICATION_JSON))
+                        patch(basePath+"/1")
+                        .content(asJsonString(datoEnviado))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(mapper.writeValueAsString(datoEsperado)));
@@ -124,9 +115,8 @@ class ApiControllerTest {
         // metemos el dato antes de borrarlo
         testAddShouldReturnDato();
         mockMvc.perform(
-                        MockMvcRequestBuilders
-                                .delete(basePath+"/1")
-                                .contentType(MediaType.APPLICATION_JSON))
+                        delete(basePath+"/1")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(mapper.writeValueAsString(datoEsperado)));
@@ -137,9 +127,8 @@ class ApiControllerTest {
         Dato datoEsperado = new Dato();
         // no metemos el dato antes de borrarlo
         mockMvc.perform(
-                        MockMvcRequestBuilders
-                                .delete(basePath+"/1")
-                                .contentType(MediaType.APPLICATION_JSON))
+                        delete(basePath+"/1")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(mapper.writeValueAsString(datoEsperado)));

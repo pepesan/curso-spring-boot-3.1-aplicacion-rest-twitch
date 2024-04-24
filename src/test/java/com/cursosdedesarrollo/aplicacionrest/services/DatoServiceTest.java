@@ -5,6 +5,7 @@ import com.cursosdedesarrollo.aplicacionrest.domain.Dato;
 import com.cursosdedesarrollo.aplicacionrest.repositories.DatoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -32,7 +33,7 @@ public class DatoServiceTest {
     }
 
     @Test
-    public void testFindAll() {
+    public void tsetFindAll() {
         // Simulamos una lista de datos
         List<Dato> datos = new ArrayList<>();
         datos.add(new Dato());

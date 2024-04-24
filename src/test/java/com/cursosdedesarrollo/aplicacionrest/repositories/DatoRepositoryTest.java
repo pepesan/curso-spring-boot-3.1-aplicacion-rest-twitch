@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest
 public class DatoRepositoryTest {
@@ -15,6 +16,11 @@ public class DatoRepositoryTest {
     private TestEntityManager entityManager;
     @Autowired
     private DatoRepository datoRepository;
+
+    @Test
+    public void pruebaRepositoryIsNotNull(){
+        assertNotNull(datoRepository);
+    }
     @Test
     public void pruebaRepositorio(){
         Dato dato = new Dato(null, "Cadena1");

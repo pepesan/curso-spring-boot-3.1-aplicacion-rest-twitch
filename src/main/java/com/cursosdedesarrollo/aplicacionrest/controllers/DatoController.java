@@ -19,17 +19,22 @@ public class DatoController {
         this.datoService = datoService;
     }
 
-    @GetMapping
+    @GetMapping("/")
     public List<Dato> getAllDatos() {
         return datoService.findAll();
     }
 
+    @GetMapping("/clear")
+    public List<Dato> clearDatos(){
+        this.datoService.clear();
+        return this.datoService.findAll();
+    }
     @GetMapping("/{id}")
     public com.cursosdedesarrollo.aplicacionrest.domain.Dato getDatoById(@PathVariable Long id) {
         return datoService.findById(id).orElse(null);
     }
 
-    @PostMapping
+    @PostMapping("/")
     public Dato createDato(@RequestBody Dato dato) {
         return datoService.save(dato);
     }
