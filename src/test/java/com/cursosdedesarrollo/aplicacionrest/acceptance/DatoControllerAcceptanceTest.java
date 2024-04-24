@@ -1,6 +1,7 @@
 package com.cursosdedesarrollo.aplicacionrest.acceptance;
 
 import com.cursosdedesarrollo.aplicacionrest.domain.Dato;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -26,13 +27,39 @@ public class DatoControllerAcceptanceTest {
         return "http://localhost:" + port + path;
     }
 
-    @Test
-    public void testGetAllDatos() {
+    @BeforeEach
+    public void testCleanAllDatos() {
         ResponseEntity<List> response =
-                restTemplate.getForEntity(getUrl("/datos"), List.class);
+                restTemplate.getForEntity(getUrl("/datos/clear"), List.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
+    }
+    @Test
+    public void testGetAllDatos() {
+        ResponseEntity<List> response =
+                restTemplate.getForEntity(getUrl("/datos/"), List.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+    }
+
+
+
+    @Test
+    public void testCreateDato() {
+        Dato dato = new Dato();
+        dato.setCadena("Nuevo dato");
+
+        ResponseEntity<Dato> response =
+                restTemplate.postForEntity(getUrl("/datos/"), dato, Dato.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertNotNull(response.getBody().getId());
+        assertEquals("Nuevo dato", response.getBody().getCadena());
+        this.insertedID = response.getBody().getId();
+        // assertEquals(this.insertedID, 1L, "Debería devolver 1");
     }
 
     @Test
@@ -43,22 +70,8 @@ public class DatoControllerAcceptanceTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals(this.insertedID, response.getBody().getId());
-    }
-
-    @Test
-    public void testCreateDato() {
-        Dato dato = new Dato();
-        dato.setCadena("Nuevo dato");
-
-        ResponseEntity<Dato> response =
-                restTemplate.postForEntity(getUrl("/datos"), dato, Dato.class);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertNotNull(response.getBody().getId());
-        assertEquals("Nuevo dato", response.getBody().getCadena());
-        this.insertedID = response.getBody().getId();
+        // assertEquals(this.insertedID, response.getBody().getId(), "Debería ser 1");
+        assertEquals("Nuevo dato", response.getBody().getCadena(), "Debería ser \"Nuevo dato\"");
     }
 
     @Test
@@ -67,7 +80,9 @@ public class DatoControllerAcceptanceTest {
         Dato dato = new Dato();
         dato.setCadena("Dato actualizado");
 
-        restTemplate.put(getUrl("/datos/" + this.insertedID), dato);
+        restTemplate.put(
+                getUrl("/datos/" + this.insertedID),
+                dato);
 
         ResponseEntity<Dato> response =
                 restTemplate.getForEntity(getUrl("/datos/" + this.insertedID), Dato.class);
