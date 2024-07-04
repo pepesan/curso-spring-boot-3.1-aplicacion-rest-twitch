@@ -20,6 +20,6 @@ public interface SchoolRepository extends JpaRepository<School, Long> {
     // List<School> findByNameAndActiveTrue(String name);
 
     List<School> findByNameAndActiveTrue(String name);
-
+    List<School> findByActiveTrueAndId(Long id);
 
 }

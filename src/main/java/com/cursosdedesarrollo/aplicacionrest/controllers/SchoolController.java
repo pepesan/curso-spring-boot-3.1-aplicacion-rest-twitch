@@ -2,6 +2,7 @@ package com.cursosdedesarrollo.aplicacionrest.controllers;
 
 import com.cursosdedesarrollo.aplicacionrest.domain.School;
 import com.cursosdedesarrollo.aplicacionrest.dtos.SchoolCreateUpdateDTO;
+import com.cursosdedesarrollo.aplicacionrest.dtos.SchoolOutput;
 import com.cursosdedesarrollo.aplicacionrest.services.SchoolService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +44,36 @@ public class SchoolController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<School> getById(
+    public ResponseEntity<SchoolOutput> getById(
         @PathVariable("id") Long id
     ){
         School school = this.schoolService.findById(id);
+        if(school.getId() == null){
+            return ResponseEntity.notFound().build();
+        }else{
+            SchoolOutput schoolOutput = new SchoolOutput( school);
+            return ResponseEntity.ok(schoolOutput);
+        }
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<School> updateById(
+            @PathVariable("id") Long id,
+            @Valid @RequestBody SchoolCreateUpdateDTO schoolDTO
+    ){
+        School school = this.schoolService.update(schoolDTO,id);
+        if(school.getId() == null){
+            return ResponseEntity.notFound().build();
+        }else{
+            return ResponseEntity.ok(school);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<School> updateById(
+            @PathVariable("id") Long id
+    ){
+        School school = this.schoolService.deleteById(id);
         if(school.getId() == null){
             return ResponseEntity.notFound().build();
         }else{

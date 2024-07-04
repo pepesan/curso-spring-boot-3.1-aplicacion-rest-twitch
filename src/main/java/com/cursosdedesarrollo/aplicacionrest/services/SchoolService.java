@@ -3,15 +3,14 @@ package com.cursosdedesarrollo.aplicacionrest.services;
 import com.cursosdedesarrollo.aplicacionrest.dtos.SchoolCreateUpdateDTO;
 import com.cursosdedesarrollo.aplicacionrest.repositories.SchoolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import com.cursosdedesarrollo.aplicacionrest.domain.School;
 
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SchoolService {
@@ -24,7 +23,7 @@ public class SchoolService {
     }
 
     public List<School> findAll(){
-        return this.schoolRepository.findAll();
+        return this.schoolRepository.findByActive(true);
     }
 
     public School save(SchoolCreateUpdateDTO schoolDTO) {
@@ -38,14 +37,18 @@ public class SchoolService {
     }
 
     public School findById(Long id){
-        return this.schoolRepository.findById(id).orElse(new School());
+        return this.schoolRepository
+                .findByActiveTrueAndId(id)
+                .stream()
+                .findFirst()
+                .orElse(new School());
     }
 
     public School update(SchoolCreateUpdateDTO schoolDTO, Long id){
-        Optional<School> schoolOptional = this.schoolRepository.findById(id);
-        if (schoolOptional.isPresent()){
-            School savedSchool = schoolOptional.get();
+        School savedSchool = this.findById(id);
+        if (savedSchool.getId() !=null){
             savedSchool.apply(schoolDTO);
+            savedSchool.setUpdatedAt(new Date());
             this.schoolRepository.save(savedSchool);
             return savedSchool;
         }else {
@@ -53,4 +56,15 @@ public class SchoolService {
         }
     }
 
+    public School deleteById(Long id) {
+        School savedSchool = this.findById(id);
+        if (savedSchool.getId() !=null){
+            savedSchool.setUpdatedAt(new Date());
+            savedSchool.setActive(false);
+            this.schoolRepository.save(savedSchool);
+            return savedSchool;
+        }else{
+            return new School();
+        }
+    }
 }
