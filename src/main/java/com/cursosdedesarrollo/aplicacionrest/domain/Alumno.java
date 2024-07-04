@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Size;
 @Table(name = "ALUMNOS")
 public class Alumno {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Size(min = 3, max = 20, message = "el nombre debe tener mas de 3 letras y menos de 20.")
     private String nombre;
