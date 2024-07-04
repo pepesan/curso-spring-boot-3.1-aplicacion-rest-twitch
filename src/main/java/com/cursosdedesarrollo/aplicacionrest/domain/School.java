@@ -4,14 +4,20 @@ import com.cursosdedesarrollo.aplicacionrest.dtos.SchoolCreateUpdateDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 
 @Entity
 @Data
-@Table(name = "SCHOOLS")
+@Table(name = "SCHOOLS", indexes = {
+        @Index(name = "idx_school_active", columnList = "active")
+})
 @NoArgsConstructor
+@Getter
+@Setter
 
 public class School {
 
