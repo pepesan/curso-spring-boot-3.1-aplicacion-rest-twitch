@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Entity
 @Data
@@ -18,7 +19,12 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @Setter
-
+@NamedQueries({
+        @NamedQuery(
+                name = "School.findByName",
+                query = "SELECT s FROM School s WHERE s.name = :name"
+        )
+})
 public class School {
 
     @Id
@@ -47,6 +53,10 @@ public class School {
 
 
     public School(SchoolCreateUpdateDTO schoolDTO) {
+        this.apply(schoolDTO);
+    }
+
+    public void apply(SchoolCreateUpdateDTO schoolDTO) {
         this.name= schoolDTO.getName();
         this.address = schoolDTO.getAddress();
         this.alumnSize = schoolDTO.getAlumnSize();
